@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Fade from "react-reveal/Fade";
+// import Fade from "react-reveal/Fade";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { contact } from "../../actions/user";
@@ -110,7 +110,7 @@ const ContactUs = (props) => {
 
           <div class="absolute inset-0 flex items-center justify-center">
             <div className="md:p-0 p-2 w-full h-full  ">
-              <Fade top distance="20%">
+              
                 <div class=" md:p-20  font-main ">
                   <div class="  text-center sm:text-center md:mx-auto ">
                     {/* <p class="md:text-4xl font-semibold uppercase tracking-wide text-gray-900 dark:text-green-200">
@@ -373,7 +373,7 @@ const ContactUs = (props) => {
                     </div>
                   </div>
                 </div>
-              </Fade>
+              
             </div>
           </div>
         </div>
