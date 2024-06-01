@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 // import Fade from "react-reveal/Fade";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -95,7 +95,7 @@ const ContactUs = (props) => {
   return (
     <>
     <ToastContainer />
-      <motion.div
+      <div
         className=" bg-[#00101d00]   md:h-full "
         initial={{ opacity: 0 }}
         animate={{ opacity: 5 }}
@@ -401,7 +401,7 @@ const ContactUs = (props) => {
             />
           </svg>
         </div> */}
-      </motion.div>
+      </div>
       {/* <Footer_scnd/> */}
     </>
   );

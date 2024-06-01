@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa";
 // import { NavLink } from "react-router-dom";
 // import { MdKeyboardArrowDown } from "react-icons/md";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { HiMenuAlt4 } from "react-icons/hi";
 
 const Header = () => {
@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <>
       {" "}
-      <motion.div
+      <div
         className=" "
         initial={{ opacity: 0 }}
         animate={{ opacity: 5 }}
@@ -397,7 +397,7 @@ const Header = () => {
           </div>
         </div>
 
-      </motion.div>{" "}
+      </div>{" "}
     </>
   );
 };

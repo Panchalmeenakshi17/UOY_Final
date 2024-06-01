@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import Scnd from "./Scnd";
 import { NavLink } from "react-router-dom";
@@ -49,7 +49,7 @@ const Homepage = () => {
 
   return (
     <>
-      <motion.div
+      <div
         className="relative h-screen flex flex-col justify-between"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -150,7 +150,7 @@ const Homepage = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
         </div> */}
-      </motion.div>
+      </div>
 
       <ToastContainer />
       <Scnd />
