@@ -40,11 +40,13 @@ dotenv.config();
 // Connect to MongoDB
 async function connectDB() {
   try {
-    const mongoOptions = {
+    const mongoOptions = {  
       useNewUrlParser: true,
       useUnifiedTopology: true
     };
-    await mongoose.connect(process.env.MONGO_URI, mongoOptions);
+    const dbURI = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV;
+    // await mongoose.connect(process.env.MONGO_URI, mongoOptions);
+    await mongoose.connect(dbURI, mongoOptions);
     console.log('MongoDB connected successfully'.green);
   } catch (error) {
     console.error('MongoDB connection error:', error);
