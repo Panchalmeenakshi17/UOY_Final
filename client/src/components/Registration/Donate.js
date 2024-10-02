@@ -4,7 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { bgRegistration } from "../../actions/user";
 import Footer from "../Footer/Footer";
-
+import { firestore } from "../../firebase"; // Assuming you export firestore from your firebase.js
+import { collection, addDoc } from "firebase/firestore";
 const Donate = () => {
   const [DonorName, setDonorName] = useState("");
   const [DonorEmail, setDonorEmail] = useState("");
@@ -13,6 +14,52 @@ const Donate = () => {
   const [DonorAddress, setDonorAddress] = useState("");
   // const [DonationAmount, setDonationAmount] = useState("");
   const dispatch = useDispatch();
+
+  // const submitDonation = async (e) => {
+  //   e.preventDefault();
+
+  //   // Email validation using a regular expression
+  //   const emailRegex = /\S+@\S+\.\S+/;
+  //   if (!emailRegex.test(DonorEmail)) {
+  //     toast.warn("Please enter a valid email address.", {
+  //       position: "top-center",
+  //     });
+  //     return;
+  //   }
+
+  //   // Phone number validation
+  //   const phoneRegex = /^\d{10}$/;
+  //   if (!phoneRegex.test(DonorPhone)) {
+  //     toast.warn("Please enter a valid 10-digit phone number.", {
+  //       position: "top-center",
+  //     });
+  //     return;
+  //   }
+  //   if (
+  //     DonorName.trim() === "" ||
+  //     DonorEmail.trim() === "" ||
+  //     DonorPhone.trim() === "" ||
+  //     DonorBloodGroup.trim() === "" ||
+  //     DonorAddress.trim() === ""
+  //   ) {
+  //     toast.warn("Please fill out all required fields.", {
+  //       position: "top-center",
+  //     });
+  //   } else {
+  //     const donorSubmit = {
+  //       DonorName,
+  //       DonorEmail,
+  //       DonorPhone,
+  //       DonorBloodGroup,
+  //       DonorAddress,
+  //     };
+  //     dispatch(bgRegistration(donorSubmit));
+  //     setDonorName("");
+  //     setDonorEmail("");
+  //     setDonorPhone("");
+  //     setDonorAddress("");
+  //   }
+  // };
 
   const submitDonation = async (e) => {
     e.preventDefault();
@@ -34,6 +81,7 @@ const Donate = () => {
       });
       return;
     }
+
     if (
       DonorName.trim() === "" ||
       DonorEmail.trim() === "" ||
@@ -45,21 +93,36 @@ const Donate = () => {
         position: "top-center",
       });
     } else {
-      const donorSubmit = {
+      const donorData = {
         DonorName,
         DonorEmail,
         DonorPhone,
         DonorBloodGroup,
         DonorAddress,
+        timestamp: new Date(),
       };
-      dispatch(bgRegistration(donorSubmit));
-      setDonorName("");
-      setDonorEmail("");
-      setDonorPhone("");
-      setDonorAddress("");
+
+      try {
+        // Add the donor data to the 'donors' collection in Firestore
+        await addDoc(collection(firestore, "donors"), donorData);
+        toast.success("Donor registration submitted successfully!", {
+          position: "top-center",
+        });
+
+        // Clear form fields after successful submission
+        setDonorName("");
+        setDonorEmail("");
+        setDonorPhone("");
+        setDonorBloodGroup("");
+        setDonorAddress("");
+      } catch (error) {
+        console.error("Error submitting donor registration: ", error);
+        toast.error("There was an error submitting the registration.", {
+          position: "top-center",
+        });
+      }
     }
   };
-
   return (
     <>
       <ToastContainer />

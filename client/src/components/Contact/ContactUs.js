@@ -5,8 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { contact } from "../../actions/user";
 import Footer_scnd from "../Footer/Footer_scnd";
-
-
+import { firestore } from "../../firebase"; // Assuming you export firestore from your firebase.js
+import { collection, addDoc } from "firebase/firestore";
 const ContactUs = (props) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -45,11 +45,59 @@ const ContactUs = (props) => {
   const dispatch = useDispatch();
 
   
- const submitSignup = async (e) => {
+//  const submitSignup = async (e) => {
+//   e.preventDefault();
+
+//   // Email validation using a regular expression
+//    const emailRegex = /\S+@\S+\.\S+/;
+//   if (!emailRegex.test(UserEmail)) {
+//     toast.warn("Please enter a valid email address.", {
+//       position: "top-center",
+//     });
+//     return;
+//   }
+
+//   // Phone number validation
+//   const phoneRegex = /^\d{10}$/;
+//   if (!phoneRegex.test(UserPhoneNumber)) {
+//     toast.warn("Please enter a valid 10-digit phone number.", {
+//       position: "top-center",
+//     });
+//     return;
+//   }
+
+//   if (
+//     UserName.trim() === "" ||
+//     UserEmail.trim() === "" ||
+//     UserPhoneNumber.trim() === ""
+//   ) {
+//     toast.warn("Please fill out all required fields")
+//   } else {
+//     const userContact = {
+//       UserName,
+//       UserEmail, 
+//       UserPhoneNumber,
+//       UserMessage,
+      
+//     };
+//     dispatch(contact(userContact));
+//     setUserName("");
+//     setUserEmail("");
+//     setUserPhoneNumber("");
+//     setUserMessage("");
+    
+//     // toast.success("Account created successfully!.", {
+//     //   position: "top-center",
+//     // });
+//     // navigate("/LoginDonator");
+//   }
+// };
+
+const submitSignup = async (e) => {
   e.preventDefault();
 
   // Email validation using a regular expression
-   const emailRegex = /\S+@\S+\.\S+/;
+  const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(UserEmail)) {
     toast.warn("Please enter a valid email address.", {
       position: "top-center",
@@ -66,30 +114,41 @@ const ContactUs = (props) => {
     return;
   }
 
-  if (
-    UserName.trim() === "" ||
-    UserEmail.trim() === "" ||
-    UserPhoneNumber.trim() === ""
-  ) {
-    toast.warn("Please fill out all required fields")
+  if (UserName.trim() === "" || UserEmail.trim() === "" || UserPhoneNumber.trim() === "") {
+    toast.warn("Please fill out all required fields");
   } else {
     const userContact = {
       UserName,
-      UserEmail, 
+      UserEmail,
       UserPhoneNumber,
       UserMessage,
-      
+      timestamp: new Date(),
     };
-    dispatch(contact(userContact));
-    setUserName("");
-    setUserEmail("");
-    setUserPhoneNumber("");
-    setUserMessage("");
-    
-    // toast.success("Account created successfully!.", {
-    //   position: "top-center",
-    // });
-    // navigate("/LoginDonator");
+
+    try {
+      // Add the userContact to the Firestore collection
+      await addDoc(collection(firestore, "contacts"), userContact);
+
+      // Clear form fields
+      setUserName("");
+      setUserEmail("");
+      setUserPhoneNumber("");
+      setUserMessage("");
+
+      // Show success notification
+      toast.success("Message sent successfully!", {
+        position: "top-center",
+      });
+
+      // Dispatch contact action (if needed)
+      dispatch(contact(userContact));
+    } catch (error) {
+      // Show error notification
+      toast.error("Error sending message. Please try again.", {
+        position: "top-center",
+      });
+      console.error("Error adding document: ", error);
+    }
   }
 };
   return (

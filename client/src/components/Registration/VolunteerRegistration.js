@@ -3,13 +3,18 @@
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 // import { volunteerRegistration } from "../../actions/user";
+
+
+
+
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { volunteerRegistration } from "../../actions/user";
 import Footer from "../Footer/Footer";
-
+import { firestore } from "../../firebase"; // Assuming you export firestore from your firebase.js
+import { collection, addDoc } from "firebase/firestore";
 const VolunteerRegistration = () => {
   const [VolunteerName, setVolunteerName] = useState("");
   const [VolunteerEmail, setVolunteerEmail] = useState("");
@@ -19,10 +24,57 @@ const VolunteerRegistration = () => {
   // const [DonationAmount, setDonationAmount] = useState("");
   const dispatch = useDispatch();
 
+  // const submitVolunteerRegistration = async (e) => {
+  //   e.preventDefault();
+
+  //   //  Email validation using a regular expression
+  //   const emailRegex = /\S+@\S+\.\S+/;
+  //   if (!emailRegex.test(VolunteerEmail)) {
+  //     toast.warn("Please enter a valid email address.", {
+  //       position: "top-center",
+  //     });
+  //     return;
+  //   }
+
+  //   // Phone number validation
+  //   const phoneRegex = /^\d{10}$/;
+  //   if (!phoneRegex.test(VolunteerPhone)) {
+  //     toast.warn("Please enter a valid 10-digit phone number.", {
+  //       position: "top-center",
+  //     });
+  //     return;
+  //   }
+  //   if (
+  //     VolunteerName.trim() === "" ||
+  //     VolunteerEmail.trim() === "" ||
+  //     VolunteerPhone.trim() === "" ||
+  //     VolunteerBloodGroup.trim() === "" ||
+  //     VolunteerAddress.trim() === ""
+  //   ) {
+  //     toast.warn("Please fill out all required fields.", {
+  //       position: "top-center",
+  //     });
+  //   } else {
+  //     const volunteerRegistrationrSubmit = {
+  //       VolunteerName,
+  //       VolunteerEmail,
+  //       VolunteerPhone,
+  //       VolunteerBloodGroup,
+  //       VolunteerAddress,
+  //     };
+  //     dispatch(volunteerRegistration(volunteerRegistrationrSubmit));
+  //     setVolunteerName("");
+  //     setVolunteerEmail("");
+  //     setVolunteerBloodGroup("");
+  //     setVolunteerPhone("");
+  //     setVolunteerAddress("");
+  //   }
+  // };
+
   const submitVolunteerRegistration = async (e) => {
     e.preventDefault();
 
-    //  Email validation using a regular expression
+    // Email validation
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(VolunteerEmail)) {
       toast.warn("Please enter a valid email address.", {
@@ -39,6 +91,7 @@ const VolunteerRegistration = () => {
       });
       return;
     }
+
     if (
       VolunteerName.trim() === "" ||
       VolunteerEmail.trim() === "" ||
@@ -49,20 +102,36 @@ const VolunteerRegistration = () => {
       toast.warn("Please fill out all required fields.", {
         position: "top-center",
       });
-    } else {
-      const volunteerRegistrationrSubmit = {
-        VolunteerName,
-        VolunteerEmail,
-        VolunteerPhone,
-        VolunteerBloodGroup,
-        VolunteerAddress,
-      };
-      dispatch(volunteerRegistration(volunteerRegistrationrSubmit));
+      return;
+    }
+
+    const volunteerRegistrationData = {
+      VolunteerName,
+      VolunteerEmail,
+      VolunteerPhone,
+      VolunteerBloodGroup,
+      VolunteerAddress,
+      timestamp: new Date(),
+    };
+
+    try {
+      // Add the volunteer data to the 'volunteers' collection in Firestore
+      await addDoc(collection(firestore, "volunteers"), volunteerRegistrationData);
+      toast.success("Volunteer registration submitted successfully!", {
+        position: "top-center",
+      });
+
+      // Clear form fields after successful submission
       setVolunteerName("");
       setVolunteerEmail("");
-      setVolunteerBloodGroup("");
       setVolunteerPhone("");
+      setVolunteerBloodGroup("");
       setVolunteerAddress("");
+    } catch (error) {
+      console.error("Error submitting volunteer registration: ", error);
+      toast.error("There was an error submitting the registration.", {
+        position: "top-center",
+      });
     }
   };
 
