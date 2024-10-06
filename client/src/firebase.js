@@ -17,15 +17,26 @@ import { getFirestore } from 'firebase/firestore';
 //   measurementId: "G-T496JJ5HE1"
 // };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBYgSvfd37aem3qRVQSgoruzQAjwu_7Hik",
+//   authDomain: "unity-of-youth-foundation.firebaseapp.com",
+//   projectId: "unity-of-youth-foundation",
+//   storageBucket: "unity-of-youth-foundation.appspot.com",
+//   messagingSenderId: "770621220210",
+//   appId: "1:770621220210:web:e5d7c4f55d003c4f5829eb",
+//   measurementId: "G-G3B75XEQ1P"
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBYgSvfd37aem3qRVQSgoruzQAjwu_7Hik",
-  authDomain: "unity-of-youth-foundation.firebaseapp.com",
-  projectId: "unity-of-youth-foundation",
-  storageBucket: "unity-of-youth-foundation.appspot.com",
-  messagingSenderId: "770621220210",
-  appId: "1:770621220210:web:e5d7c4f55d003c4f5829eb",
-  measurementId: "G-G3B75XEQ1P"
+  apiKey: "AIzaSyAuz4iaaajOtyDdzRrIPv8Ub1sJ6AsUufw",
+  authDomain: "unity-of-youth-foundatio-f3934.firebaseapp.com",
+  projectId: "unity-of-youth-foundatio-f3934",
+  storageBucket: "unity-of-youth-foundatio-f3934.appspot.com",
+  messagingSenderId: "517633997681",
+  appId: "1:517633997681:web:b4bfcdee79306749d194d0",
+  measurementId: "G-KEEX3S1Q3H"
 };
+
 
 
 // Initialize Firebase
