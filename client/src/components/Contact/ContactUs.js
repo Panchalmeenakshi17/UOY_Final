@@ -176,7 +176,7 @@ const submitSignup = async (e) => {
                       Contact
                     </p> */}
                     <h2 class="md:p-20 font-main text-4xl p-10  font-bold tracking-tight  text-[#000000] md:drop-shadow-[4px_3px_var(--tw-shadow-color)] shadow-[#5b715e98] dark:text-white md:text-7xl sm:text-5xl">
-                      Reach out to us easily – we're just a message away!
+                      Reach out to us easily – we're just a message away from You !
                     </h2>
                   </div>
                   <div class="flex w-full   md:mt-[100px] mt-6 p-2  md:mb-10 items-stretch justify-center">
